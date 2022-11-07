@@ -16,15 +16,17 @@ app = Flask(__name__)
 
 async def welcome_message(item):
     print(item)
-    if 
-    if item['text'].lower() == 'hi':
-        msg = 'hello '
-        chat_id = item['chat']['id']
-        user_id = item['from']['id']
-        username = item['from']['username']
-        welcome_msg = f'{msg}{username}'
-        to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
-        resp = requests.get(to_url)
+    if 'text' in item:
+        if item['text'].lower() == 'hi':
+            msg = 'hello '
+            chat_id = item['chat']['id']
+            user_id = item['from']['id']
+            username = item['from']['username']
+            welcome_msg = f'{msg}{username}'
+            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
+            resp = requests.get(to_url)
+    else:
+        print("No hay text")
 
 
 @app.route("/", methods=['GET','POST'])
