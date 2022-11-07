@@ -13,17 +13,48 @@ app = Flask(__name__)
  'type': 'private'}, 
  'date': 1667819834, 'text': 'hi'}'''
 
+
+
+
+
+
 def welcome_message(item):
     print(item)
     if 'text' in item:
-        if item['text'].lower() == 'hi':
-            msg = 'hello '
-            chat_id = item['chat']['id']
+
+        if item['text'] == "Nuevo usuario":
             user_id = item['from']['id']
-            username = item['from']['username']
-            welcome_msg = f'{msg}{username}'
-            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
+            if 'username' in item['from']:
+                username = item['from']['username']
+
+            else:
+                username = item['from']['first_name']   
+            msg = f'Bienvenido {username}'
+            
+            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)
+            msg = 'Escribir Listo para que empiece el juego'
+      
+            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
+            resp = requests.get(to_url)
+
+        elif item['text'] == "Empezar":
+            start = 1
+            msg = 'Inicio del juego'
+            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
+            resp = requests.get(to_url)            
+        else:
+            if start == 0:
+                msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
+                chat_id = item['chat']['id']
+                user_id = item['from']['id']
+                if 'username' in item['from']:
+                    username = item['from']['username']
+                welcome_msg = f'{msg}{username}'
+                to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
+                resp = requests.get(to_url)
+
+
     else:
         print("No hay text")
 
@@ -43,4 +74,5 @@ def hello_world():
         return {'statusCode': 200, 'body': 'Success'}
 
 if __name__ == '__main__':
+    start = 0
     app.run(debug=True)
