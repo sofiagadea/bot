@@ -14,9 +14,9 @@ app = Flask(__name__)
  'date': 1667819834, 'text': 'hi'}'''
 
 
-def welcome_message(item):
+async def welcome_message(item):
     print(item)
-
+    if 
     if item['text'].lower() == 'hi':
         msg = 'hello '
         chat_id = item['chat']['id']
@@ -28,7 +28,7 @@ def welcome_message(item):
 
 
 @app.route("/", methods=['GET','POST'])
-def hello_world():
+async def hello_world():
     if request.method == 'POST':
         data = request.get_json()
         print(f'DATA: {data}')
