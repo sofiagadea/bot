@@ -13,8 +13,7 @@ app = Flask(__name__)
  'type': 'private'}, 
  'date': 1667819834, 'text': 'hi'}'''
 
-
-async def welcome_message(item):
+def welcome_message(item):
     print(item)
     if 'text' in item:
         if item['text'].lower() == 'hi':
@@ -30,7 +29,7 @@ async def welcome_message(item):
 
 
 @app.route("/", methods=['GET','POST'])
-async def hello_world():
+def hello_world():
     if request.method == 'POST':
         data = request.get_json()
         print(f'DATA: {data}')
