@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, request,jsonify
 import json
-
+start =0
 
 TOKEN = '5607369368:AAHEBTuVYxEGuyyBp2gZeP5vqOcMyhkkt4M'
 
@@ -21,7 +21,6 @@ app = Flask(__name__)
 def welcome_message(item):
     print(item)
     if 'text' in item:
-
         if item['text'] == "Nuevo usuario":
             user_id = item['from']['id']
             if 'username' in item['from']:
@@ -74,5 +73,5 @@ def hello_world():
         return {'statusCode': 200, 'body': 'Success'}
 
 if __name__ == '__main__':
-    start = 0
-    app.run(debug=True)
+    
+     app.run(debug=True)
