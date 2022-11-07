@@ -16,8 +16,8 @@ app = Flask(__name__)
 
 def welcome_message(item):
     print(item)
-    
-    if item.get('text') == 'hi':
+
+    if item['text'].lower() == 'hi':
         msg = 'hello '
         chat_id = item['chat']['id']
         user_id = item['from']['id']
