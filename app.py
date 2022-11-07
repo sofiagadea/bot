@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, request,jsonify
 import json
-start =0
+START =0
 
 TOKEN = '5607369368:AAHEBTuVYxEGuyyBp2gZeP5vqOcMyhkkt4M'
 
@@ -21,7 +21,9 @@ app = Flask(__name__)
 def welcome_message(item):
     print(item)
     if 'text' in item:
+        start = 0
         if item['text'] == "Nuevo usuario":
+            
             user_id = item['from']['id']
             if 'username' in item['from']:
                 username = item['from']['username']
@@ -38,20 +40,20 @@ def welcome_message(item):
             resp = requests.get(to_url)
 
         elif item['text'] == "Empezar":
-            start = 1
+            
             msg = 'Inicio del juego'
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)            
         else:
-            if start == 0:
-                msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
-                chat_id = item['chat']['id']
-                user_id = item['from']['id']
-                if 'username' in item['from']:
-                    username = item['from']['username']
-                welcome_msg = f'{msg}{username}'
-                to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
-                resp = requests.get(to_url)
+            
+            msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
+            chat_id = item['chat']['id']
+            user_id = item['from']['id']
+            if 'username' in item['from']:
+                username = item['from']['username']
+            welcome_msg = f'{msg}{username}'
+            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
+            resp = requests.get(to_url)
 
 
     else:
