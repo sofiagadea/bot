@@ -21,6 +21,7 @@ app = Flask(__name__)
 def welcome_message(item):
     print(item)
     if 'text' in item:
+        chat_id = item['chat']['id']
         start = 0
         if item['text'] == "Nuevo usuario":
             
