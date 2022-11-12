@@ -56,12 +56,18 @@ def add_player(objeto):
     global globallist
     globallist.append(objeto)
 
+def check_if_user_exists():
+    ids = []
+    global globallist
+    for i in globallist:
+        ids.append(i.id) 
+    return ids
 
 def print_list():
     global globallist
     s = ""
     for i in globallist:
-        s+= i.username
+        s+= i.username + "\n"
         print(i.username)
     return s
 
@@ -98,19 +104,13 @@ def welcome_message(item):
             msg = 'Inicio del juego Number' + "\n" + "Jugadores: " + "\n" + print_list()
        
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
-            resp = requests.get(to_url)            
+            resp = requests.get(to_url)      
+
         else:
-            
-            msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
-            chat_id = item['chat']['id']
-            user_id = item['from']['id']
-            if 'username' in item['from']:
-                username = item['from']['username']
-            else:
-                username = item['from']['first_name']
-            welcome_msg = f'{msg}{username}'
-            to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
-            resp = requests.get(to_url)
+            if item['from']['id'] not in check_if_user_exists():
+                msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
+                to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
+                resp = requests.get(to_url)
     else:
         print("No hay text")
         
