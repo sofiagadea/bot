@@ -169,14 +169,17 @@ def welcome_message(item):
                         to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
                         resp = requests.get(to_url)  
                         number.qt = 1
+
                 elif number.tries == 0:
                     if item['text'].isnumeric():
                         number.tries = int(item['text'])
                     else:
                         msg = 'El texto debe ser un número'
                         to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
-                        resp = requests.get(to_url)                       
-
+                        resp = requests.get(to_url)     
+                print("DATOS DEL JUEGO")                  
+                print(number.maximum,number.number,number.tries)
+                print(print_list)
                
 
 
