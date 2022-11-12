@@ -3,35 +3,84 @@ from flask import Flask, request,jsonify
 import json
 START =0
 TOKEN = '5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18'
+
+LISTA = ["P1","P2","P3","P4","P5"]
+I = 0
+
+"""https://api.telegram.org/bot5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18/setWebhook?url=https://bot-wcsg.herokuapp.com/"""
+
 app = Flask(__name__)
 '''{'message_id': 14, 
 'from': {'id': 5667263033, 'is_bot': False, 'first_name': 'Sofia', 'last_name': 'Gadea', 'username': 'sofigadea', 'language_code': 'es'}, 
  'chat': {'id': 5667263033, 'first_name': 'Sofia', 'last_name': 'Gadea', 'username': 'sofigadea', 
  'type': 'private'}, 
  'date': 1667819834, 'text': 'hi'}'''
+
+class ListUsers():
+    def __init__(self):
+        self.users = []
+
+    def add_player(self,Player):
+        self.players.append(Player)
+
+    def print_players(self):
+        s = ""
+        for i in self.users:
+            s+=str(i)+"\n"
+        return s
+
+class Player():
+    def __init__(self,id,username,points,tries_left):
+        self.id = id
+        self.username = username
+        self.points = points
+        self.tries_left = tries_left
+
+class Number():
+    def __init__(self,status, number, maximum,minimum,winner,tries):
+        self.status = 0
+        self.number = 10
+        self.maximum = maximum
+        self.minomum = minimum
+        self.winner = winner
+        self.tries = tries
+
+
+
+
+
+
+
+
 def welcome_message(item):
     print(item)
     if 'text' in item:
         chat_id = item['chat']['id']
-        start = 0
-        if item['text'] == "Nuevo usuario":
 
+        if item['text'] == "Nuevo usuario":
             user_id = item['from']['id']
             if 'username' in item['from']:
                 username = item['from']['username']
+                jugadores.add_player(Player(user_id ,username,0,100))
+                
+
             else:
-                username = item['from']['first_name']   
+                username = item['from']['first_name'] 
+                id = Player(user_id ,username,0,100)  
+                jugadores.add_player(Player(user_id ,username,0,100))
+               
             msg = f'Bienvenido {username}'
             
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)
-            msg = 'Escribir Listo para que empiece el juego'
-      
+            msg = 'Seleccionar un juego'+"\n"+ "1 --> Number"+ "\n" + "2 --> Trivia"
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)
-        elif item['text'] == "Empezar":
+
+        elif item['text'] == "1":
             
-            msg = 'Inicio del juego'
+            msg = 'Inicio del juego Number' + "\n" + "Jugadores: " + "\n" + jugadores.print_players()
+
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)            
         else:
@@ -48,6 +97,8 @@ def welcome_message(item):
             resp = requests.get(to_url)
     else:
         print("No hay text")
+        
+
 @app.route("/", methods=['GET','POST'])
 def hello_world():
     if request.method == 'POST':
@@ -61,6 +112,7 @@ def hello_world():
             return {'statusCode': 404, 'body': 'User has left the chat room and deleted the chat', 'data': data}
     else:
         return {'statusCode': 200, 'body': 'Success'}
+
 if __name__ == '__main__':
-    
-     app.run(debug=True)
+    jugadores = ListUsers()
+    app.run(debug=True)
