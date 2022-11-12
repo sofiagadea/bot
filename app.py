@@ -1,11 +1,10 @@
 import requests
 from flask import Flask, request,jsonify
 import json
-START =0
+
+globvar = 0
 TOKEN = '5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18'
 
-LISTA = ["P1","P2","P3","P4","P5"]
-I = 0
 
 """https://api.telegram.org/bot5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18/setWebhook?url=https://bot-wcsg.herokuapp.com/"""
 
@@ -47,6 +46,9 @@ class Number():
 
 
 
+def set_global_to_one():
+    global globvar 
+    globvar = 1
 
 
 
@@ -54,9 +56,12 @@ class Number():
 
 def welcome_message(item):
     print(item)
-    if START == 0:
+    global globvar
+    if globvar == 0:
         jugadores = ListUsers()
-    START = 1
+    else:
+        set_global_to_one()
+        
     if 'text' in item:
         chat_id = item['chat']['id']
 
@@ -104,7 +109,6 @@ def welcome_message(item):
 
 @app.route("/", methods=['GET','POST'])
 def hello_world():
-
     if request.method == 'POST':
        
         data = request.get_json()
