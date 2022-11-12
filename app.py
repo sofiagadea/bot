@@ -5,7 +5,7 @@ import json
 globvar = 0
 TOKEN = '5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18'
 globallist = []
-
+ids = []
 """https://api.telegram.org/bot5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18/setWebhook?url=https://bot-wcsg.herokuapp.com/"""
 
 app = Flask(__name__)
@@ -54,15 +54,11 @@ class Number():
 
 def add_player(objeto):
     global globallist
+    global ids
     globallist.append(objeto)
+    ids.append(objeto.id)
 
-def check_if_user_exists():
-    ids = []
-    global globallist
-    for i in globallist:
-        ids.append(str(i.id)) 
-    print("IDS: ",ids)
-    return ids
+
 
 def print_list():
     global globallist
@@ -78,16 +74,14 @@ def welcome_message(item):
     if 'text' in item:
         chat_id = item['chat']['id']
 
-        if item['text'] == "Nuevo usuario":
+        if item['text'] == "nuevo usuario":
             user_id = item['from']['id']
             if 'username' in item['from']:
                 username = item['from']['username']
                 add_player(Player(user_id ,username,0,100))
-   
                 
             else:
                 username = item['from']['first_name'] 
-          
                 add_player(Player(user_id ,username,0,100))
                 
             msg = f'Bienvenido {username}'
@@ -107,12 +101,19 @@ def welcome_message(item):
 
         else:
             print("ID PERSONA MENSAJE: ",item['from']['id'])
-            a = check_if_user_exists()
-            if str(item['from']['id']) not in a:
-               
+            global ids
+            print("TABLA IDS", ids)
+            global ids
+            
+            if item['from']['id'] not in ids:   
                 msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
                 to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
                 resp = requests.get(to_url)
+            else:
+                msg = 'Poner "LISTO" para empezar' 
+                to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
+                resp = requests.get(to_url)
+
     else:
         print("No hay text")
         
