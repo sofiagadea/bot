@@ -4,7 +4,7 @@ import json
 
 globvar = 0
 TOKEN = '5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18'
-
+globallist = []
 
 """https://api.telegram.org/bot5529622158:AAHYUHjS8xoigtNWrXLGLxzTc5M6TSzGA18/setWebhook?url=https://bot-wcsg.herokuapp.com/"""
 
@@ -15,6 +15,7 @@ app = Flask(__name__)
  'type': 'private'}, 
  'date': 1667819834, 'text': 'hi'}'''
 
+"""
 class ListUsers():
     def __init__(self):
         self.users = []
@@ -25,8 +26,9 @@ class ListUsers():
     def print_players(self):
         s = ""
         for i in self.users:
-            s+=str(i)+"\n"
+            s+= i.username
         return s
+    """
 
 class Player():
     def __init__(self,id,username,points,tries_left):
@@ -46,21 +48,26 @@ class Number():
 
 
 
-def set_global_to_one():
+"""def set_global_to_one():
     global globvar 
-    globvar = 1
+    globvar = 1"""
+
+def add_player(objeto):
+    global globallist
+    globallist.append(objeto)
 
 
-
-
+def print_list():
+    global globallist
+    s = ""
+    for i in globallist:
+        s+= i.username
+        print(i.username)
+    return s
 
 def welcome_message(item):
     print(item)
     global globvar
-    if globvar == 0:
-        jugadores = ListUsers()
-    else:
-        set_global_to_one()
 
     if 'text' in item:
         chat_id = item['chat']['id']
@@ -69,13 +76,14 @@ def welcome_message(item):
             user_id = item['from']['id']
             if 'username' in item['from']:
                 username = item['from']['username']
-                jugadores.add_player(Player(user_id ,username,0,100))
+                add_player(Player(user_id ,username,0,100))
+   
                 
 
             else:
                 username = item['from']['first_name'] 
-                id = Player(user_id ,username,0,100)  
-                jugadores.add_player(Player(user_id ,username,0,100))
+          
+                add_player(Player(user_id ,username,0,100))
                 
             msg = f'Bienvenido {username}'
             
@@ -87,8 +95,8 @@ def welcome_message(item):
 
         elif item['text'] == "1":
             
-            msg = 'Inicio del juego Number' + "\n" + "Jugadores: " + "\n" + jugadores.print_players()
-            print(jugadores.users)
+            msg = 'Inicio del juego Number' + "\n" + "Jugadores: " + "\n" + print_list()
+       
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)            
         else:
