@@ -76,7 +76,7 @@ def welcome_message(item):
                 username = item['from']['first_name'] 
                 id = Player(user_id ,username,0,100)  
                 jugadores.add_player(Player(user_id ,username,0,100))
-               
+                
             msg = f'Bienvenido {username}'
             
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
@@ -88,7 +88,7 @@ def welcome_message(item):
         elif item['text'] == "1":
             
             msg = 'Inicio del juego Number' + "\n" + "Jugadores: " + "\n" + jugadores.print_players()
-
+            print(jugadores.users)
             to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
             resp = requests.get(to_url)            
         else:
