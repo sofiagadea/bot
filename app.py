@@ -109,7 +109,7 @@ def welcome_message(item):
         else:
             if item['from']['id'] not in check_if_user_exists():
                 msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
-                to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={welcome_msg}&parse_mode=HTML'
+                to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
                 resp = requests.get(to_url)
     else:
         print("No hay text")
