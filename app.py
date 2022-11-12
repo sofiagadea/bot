@@ -60,7 +60,8 @@ def check_if_user_exists():
     ids = []
     global globallist
     for i in globallist:
-        ids.append(i.id) 
+        ids.append(str(i.id)) 
+    print("IDS: ",ids)
     return ids
 
 def print_list():
@@ -68,7 +69,6 @@ def print_list():
     s = ""
     for i in globallist:
         s+= i.username + "\n"
-        print(i.username)
     return s
 
 def welcome_message(item):
@@ -85,7 +85,6 @@ def welcome_message(item):
                 add_player(Player(user_id ,username,0,100))
    
                 
-
             else:
                 username = item['from']['first_name'] 
           
@@ -107,7 +106,10 @@ def welcome_message(item):
             resp = requests.get(to_url)      
 
         else:
-            if item['from']['id'] not in check_if_user_exists():
+            print("ID PERSONA MENSAJE: ",item['from']['id'])
+            a = check_if_user_exists()
+            if str(item['from']['id']) not in a:
+               
                 msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
                 to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
                 resp = requests.get(to_url)
