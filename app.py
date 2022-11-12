@@ -103,8 +103,6 @@ def welcome_message(item):
             print("ID PERSONA MENSAJE: ",item['from']['id'])
             global ids
             print("TABLA IDS", ids)
-            global ids
-            
             if item['from']['id'] not in ids:   
                 msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
                 to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
