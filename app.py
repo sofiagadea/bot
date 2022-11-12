@@ -94,13 +94,14 @@ def welcome_message(item):
     print(item)
     global globvar
     global game
+    global ids
     if 'text' in item:
         chat_id = item['chat']['id']
         global intro
 
         if intro == 0:       
             if item['text'] == "nuevo usuario":
-                global ids
+                
                 if item['from']['id'] not in ids:
                     user_id = item['from']['id']
                     if 'username' in item['from']:
@@ -145,7 +146,7 @@ def welcome_message(item):
 
             else:
                 print("ID PERSONA MENSAJE: ",item['from']['id'])
-                global ids
+        
                 print("TABLA IDS", ids)
                 if item['from']['id'] not in ids:   
                     msg = 'Escribir "Nuevo usuario" para ser agregado al juego'
