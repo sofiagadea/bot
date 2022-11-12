@@ -181,7 +181,8 @@ def welcome_message(item):
                         msg = 'El texto debe ser un número'
                         to_url = f'https://api.telegram.org/bot{TOKEN}/sendMessage?chat_id={chat_id}&text={msg}&parse_mode=HTML'
                         resp = requests.get(to_url)     
-
+                        
+                number.number = random.randint(0,number.maximum)
                 print("DATOS DEL JUEGO")                  
                 print("maximo: ",number.maximum,"Numero; ",number.number,"Intentos por jugador: ",number.tries)
                 print(print_list())
