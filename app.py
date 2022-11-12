@@ -54,6 +54,9 @@ class Number():
 
 def welcome_message(item):
     print(item)
+    if START == 0:
+        jugadores = ListUsers()
+    START = 1
     if 'text' in item:
         chat_id = item['chat']['id']
 
@@ -101,7 +104,9 @@ def welcome_message(item):
 
 @app.route("/", methods=['GET','POST'])
 def hello_world():
+
     if request.method == 'POST':
+       
         data = request.get_json()
         print(f'DATA: {data}')
         if 'message' in data:
@@ -114,5 +119,5 @@ def hello_world():
         return {'statusCode': 200, 'body': 'Success'}
 
 if __name__ == '__main__':
-    jugadores = ListUsers()
+    
     app.run(debug=True)
