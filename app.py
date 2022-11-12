@@ -20,7 +20,7 @@ class ListUsers():
         self.users = []
 
     def add_player(self,Player):
-        self.players.append(Player)
+        self.users.append(Player)
 
     def print_players(self):
         s = ""
@@ -61,7 +61,7 @@ def welcome_message(item):
         jugadores = ListUsers()
     else:
         set_global_to_one()
-        
+
     if 'text' in item:
         chat_id = item['chat']['id']
 
